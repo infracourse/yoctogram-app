@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "yoctogram"
+version = "0.1.0"
+description = "A barebones image-sharing web application to be used as an example for cloud deployments"
+authors = ["Aditya Saligrama <aditya@saligrama.io>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.1"
+uvicorn = "^0.23.2"
+python-jose = {extras = ["pyopenssl"], version = "^3.3.0"}
+psycopg2-binary = "^2.9.8"
+sqlalchemy = "^2.0.21"
+passlib = "^1.7.4"
+alembic = "^1.12.1"
+aiofiles = "^23.2.1"
+python-magic = "^0.4.27"
+tenacity = "^8.2.3"
+pydantic-settings = "^2.0.3"
+sqlalchemy-utils = "^0.41.1"
+pydantic = {extras = ["email"], version = "^2.4.2"}
+python-multipart = "^0.0.6"
+boto3 = "^1.29.0"
+boto3-stubs-lite = {extras = ["essential"], version = "^1.29.3"}
+mypy-boto3-secretsmanager = "^1.29.0"
+freezegun = "^1.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,45 @@
+# ONLY for running locally. Production use will not use docker-compose.
+
+version: '3.8'
+
+services:
+  # PostgreSQL database service
+  postgres:
+    image: postgres:16-alpine  # Use an official PostgreSQL image
+    environment:
+      POSTGRES_DB: yoctogram
+      POSTGRES_USER: insecure
+      POSTGRES_PASSWORD: insecure
+    ports:
+      - "5432:5432"  # Map PostgreSQL port to the host machine
+    volumes:
+      - yoctogram_pgdata:/var/lib/postgresql/data
+
+  # FastAPI images service
+  app:
+    build:
+      context: .  # Path to your images service code
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:80"  # Map FastAPI port to the host machine
+    depends_on:
+      - postgres  # Ensure that the database service is started first
+    environment:
+      PRODUCTION: false
+      DEBUG: true
+      FORWARD_FACING_NAME: localhost
+      POSTGRES_DB: yoctogram
+      POSTGRES_USER: insecure
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      SECRET_KEY: INSECURE-DONT-USE-FOR-PROD
+    volumes:
+      - yoctogram_images:/uploads
+      - $HOME/.aws:/root/.aws:ro
+
+volumes:
+  yoctogram_pgdata:
+    external: true
+  yoctogram_images:
+    external: true
