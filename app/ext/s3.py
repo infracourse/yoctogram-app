@@ -14,11 +14,10 @@ from app.core.config import settings
 
 
 def get_bucket_conditions(
-    public: bool, content_type: str
+    public: bool,
 ) -> Sequence[Sequence[str | int] | Dict[str, Any]]:
     return [
         ["content-length-range", 1, 10 * 1000 * 1000],
-        {"content-type": content_type},
         {
             "bucket": settings.PUBLIC_IMAGES_BUCKET
             if public
@@ -40,7 +39,6 @@ def parse_s3_uri(uri: str) -> Dict[str, str]:
 def create_presigned_post(
     session: AWSSession,
     object_name: str,
-    content_type: str,
     public: bool = False,
 ) -> Dict[str, Any]:
     s3_client: S3Client = session.client(
@@ -54,7 +52,7 @@ def create_presigned_post(
         response = s3_client.generate_presigned_post(
             bucket_name,
             bucket_key,
-            Conditions=get_bucket_conditions(public, content_type),
+            Conditions=get_bucket_conditions(public),
             ExpiresIn=int(timedelta(hours=1).total_seconds()),
         )
     except ClientError as e:

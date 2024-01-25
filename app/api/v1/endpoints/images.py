@@ -45,7 +45,7 @@ async def images_generate_upload_link(
     )
 
     if settings.PRODUCTION:
-        presigned_post = create_presigned_post(aws, image_id, "image/jpeg", public)
+        presigned_post = create_presigned_post(aws, image_id, public)
         db_image.path = presigned_post["s3_uri"]
         create_response = presigned_post["create_response"] | {"id": image_id}
     else:
