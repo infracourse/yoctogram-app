@@ -1,4 +1,9 @@
 import logging
+import os
+
+if os.getenv("PRODUCTION") == "true":
+    import ddtrace.auto
+    import ddtrace.profiling.auto
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
